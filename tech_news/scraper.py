@@ -61,16 +61,14 @@ def get_tech_news(amount):
     url = fetch("https://blog.betrybe.com/")
     news_url_list = []
 
-    while len(news_list) < amount:
+    while len(news_url_list) < amount:
         news_url_list.extend(scrape_novidades(url))
         if len(news_url_list) < amount:
             url = fetch(scrape_next_page_link(url))
 
-    news_url_list = news_url_list[:amount]
-
-    for news_url in news_url_list:
-        news_html = fetch(news_url)
-        news_list.append(scrape_noticia(news_html))
+    for news_url in news_url_list[:amount]:
+        response = fetch(news_url)
+        news_list.append(scrape_noticia(response))
 
     create_news(news_list)
     return news_list
